@@ -50,6 +50,10 @@ namespace MoviesAPI.MoviesDB_Data
                 {
                     // catch a data exception here
                 }
+                finally
+                {
+                    // close
+                }
             }
             return JsonConvert.SerializeObject(movieList);
         }
@@ -88,6 +92,10 @@ namespace MoviesAPI.MoviesDB_Data
                 catch (Exception ex)
                 {
                     // catch a data exception here
+                }
+                finally
+                {
+                    // close
                 }
             }
             return movie;
