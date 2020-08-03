@@ -12,13 +12,35 @@ public partial class _Default : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            PopulateMovieGrid();
+        }
     }
 
-    public string MovieGrid_GetData()
+    protected override void Render(HtmlTextWriter writer)
     {
-        var movies = GetMovies();
-        return movies.Result;
+        foreach (GridViewRow r in MovieGrid.Rows)
+        {
+            if (r.RowType == DataControlRowType.DataRow)
+            {
+                r.Attributes["onmouseover"] = "this.style.cursor='pointer';this.style.textDecoration='underline';";
+                r.Attributes["onmouseout"] = "this.style.textDecoration='none';";
+                r.ToolTip = "Click to select row";
+                //r.Attributes["onclick"] = this.Page.ClientScript.GetPostBackClientHyperlink(this.MovieIDTextBox, string.Empty, true); ;
+                r.Attributes["onclick"] = this.Page.ClientScript.GetPostBackClientHyperlink(this.MovieGrid, "Select$" + r.RowIndex, true);
+            }
+        }
+
+        base.Render(writer);
+    }
+
+    private void PopulateMovieGrid()
+    {
+        var movies = GetMovies().Result;
+        var moviesObj = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Movie>>(movies);
+        MovieGrid.DataSource = moviesObj;
+        MovieGrid.DataBind();
     }
 
     private async Task<string> GetMovies()
@@ -39,5 +61,14 @@ public partial class _Default : Page
         }
 
         return result;
+    }
+
+    protected void MovieGrid_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        GridViewRow row = MovieGrid.SelectedRow;
+        MovieIDTextBox.Text = row.Cells[0].Text;
+        MovieTitleTextBox.Text = row.Cells[1].Text;
+        MovieRatingTextBox.Text = row.Cells[2].Text;
+        YearReleasedTextBox.Text = row.Cells[3].Text;
     }
 }

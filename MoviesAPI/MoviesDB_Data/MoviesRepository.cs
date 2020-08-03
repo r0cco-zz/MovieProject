@@ -14,7 +14,7 @@ namespace MoviesAPI.MoviesDB_Data
     {
         private SqlConnection _cn;
 
-        public string GetAllMovies()
+        public List<Movie> GetAllMovies()
         {
             List<Movie> movieList = new List<Movie>();
 
@@ -55,7 +55,7 @@ namespace MoviesAPI.MoviesDB_Data
                     // close
                 }
             }
-            return JsonConvert.SerializeObject(movieList);
+            return movieList;
         }
 
         public Movie GetMovie(int movieID)

@@ -21,7 +21,7 @@ namespace MoviesAPI.Controllers
         public IHttpActionResult Get()
         {
             var movies = _repo.GetAllMovies();
-            if (movies != null && movies != string.Empty)
+            if (movies != null)
             {
                 return Ok(movies);
             }
