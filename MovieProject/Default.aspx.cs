@@ -27,7 +27,6 @@ public partial class _Default : Page
                 r.Attributes["onmouseover"] = "this.style.cursor='pointer';this.style.textDecoration='underline';";
                 r.Attributes["onmouseout"] = "this.style.textDecoration='none';";
                 r.ToolTip = "Click to select row";
-                //r.Attributes["onclick"] = this.Page.ClientScript.GetPostBackClientHyperlink(this.MovieIDTextBox, string.Empty, true); ;
                 r.Attributes["onclick"] = this.Page.ClientScript.GetPostBackClientHyperlink(this.MovieGrid, "Select$" + r.RowIndex, true);
             }
         }
