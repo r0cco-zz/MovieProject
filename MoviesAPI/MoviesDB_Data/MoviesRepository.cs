@@ -48,11 +48,11 @@ namespace MoviesAPI.MoviesDB_Data
                 }
                 catch (Exception ex)
                 {
-                    // catch a data exception here
+                    // log a data exception here
                 }
                 finally
                 {
-                    // close
+                    connection.Close();
                 }
             }
             return movieList;
@@ -87,15 +87,19 @@ namespace MoviesAPI.MoviesDB_Data
                         movie.MovieRating = (string)reader[2];
                         movie.ReleaseYear = (int)reader[3];
                     }
+                    if (!reader.HasRows)
+                    {
+                        movie = null;
+                    }
                     reader.Close();
                 }
                 catch (Exception ex)
                 {
-                    // catch a data exception here
+                    // log a data exception here
                 }
                 finally
                 {
-                    // close
+                    connection.Close();
                 }
             }
             return movie;
